@@ -4,39 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-        .wrap {
-            margin: 20px auto;
-            width: 1000px;
-            height: 600px;
-            background: silver;
-            padding: 20px;
-        }
-        .box {
-            width: 200px;
-            height: 200px;
-            background: deeppink;
-            margin-bottom: 10px;
-        }
-
-        #box1 {
-            box-sizing: border-box;
-            color: white;
-            padding: 20px;
-            border: 5px solid black;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="wrap">
-        <div class="box" id="box1">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, modi!
+    <div class="container-fluid py-4 bg-secondary">
+        <div class="container bg-light" style="height: 400px"></div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-3 mb-3">
+                <div class="bg-secondary" style="height:200px"></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 mb-3">
+                <div class="bg-secondary" style="height:200px"></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 mb-3">
+                <div class="bg-secondary" style="height:200px"></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 mb-3">
+                <div class="bg-secondary" style="height:200px"></div>
+            </div>
         </div>
-        <div class="box"></div>
+
+        <footer class="mt-4 py-4 text-center border-top">
+            <small class="text-muted">&copy; Copyright 2025</small>
+        </footer>
     </div>
 </body>
 </html>
