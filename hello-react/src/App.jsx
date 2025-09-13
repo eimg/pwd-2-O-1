@@ -1,30 +1,20 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 import Item from "./Item";
 import Header from "./Header";
+import Form from "./Form";
 
-import { Container } from "@mui/material";
-
-function List({ children }) {
-	return (
-		<ul style={{ listStyle: "none", padding: 20, background: "#ddf" }}>
-			{children}
-		</ul>
-	);
-}
+import { Container, Divider, List } from "@mui/material";
 
 export default function App() {
-	const inputRef = useRef();
-
 	const [data, setData] = useState([
 		{ id: 3, name: "Egg", done: true },
 		{ id: 2, name: "Bread", done: false },
 		{ id: 1, name: "Butter", done: false },
 	]);
 
-	const add = () => {
+	const add = name => {
 		const id = data[0].id + 1;
-		const name = inputRef.current.value;
 		if (name == "") return false;
 
 		setData([{ id, name, done: false }, ...data]);
@@ -47,18 +37,8 @@ export default function App() {
 		<div>
 			<Header />
 			<Container maxWidth="sm" sx={{ mt: 4 }}>
-				<form
-					onSubmit={e => {
-						e.preventDefault();
-						add();
-						e.currentTarget.reset();
-					}}>
-					<input
-						type="text"
-						ref={inputRef}
-					/>
-					<button type="submit">Add</button>
-				</form>
+                <Form add={add} />
+
 				<List>
 					{data
 						.filter(item => item.done == false)
@@ -73,7 +53,7 @@ export default function App() {
 							);
 						})}
 				</List>
-				<hr />
+				<Divider />
 				<List>
 					{data
 						.filter(item => item.done == true)
