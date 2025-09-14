@@ -35,7 +35,8 @@ export default function App() {
 
 	return (
 		<div>
-			<Header />
+			<Header count={data.filter(item => !item.done).length} />
+            
 			<Container maxWidth="sm" sx={{ mt: 4 }}>
                 <Form add={add} />
 
