@@ -26,3 +26,9 @@ model Post {
     userId  Int
     created DateTime @default(now())
 }
+
+model Todo {
+    id   Int     @id @default(autoincrement())
+    name String
+    done Boolean @default(false)
+}
