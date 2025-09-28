@@ -15,22 +15,28 @@ import {
 	PersonAdd as RegisterIcon,
 	Login as LoginIcon,
 	Logout as LogoutIcon,
+    ArrowBack as BackButton,
 } from "@mui/icons-material";
 
 import { grey } from "@mui/material/colors";
 import { useApp } from "../AppProvider";
 
+import { useNavigate } from "react-router";
+
 export default function AppDrawer() {
 	const { openDrawer, setOpenDrawer, user, setUser } = useApp();
+
+	const navigate = useNavigate();
 
 	return (
 		<Drawer
 			open={openDrawer}
-			onClose={() => setOpenDrawer(false)}>
-			<Box sx={{ height: 200, width: 240, background: grey[500] }}></Box>
+			onClose={() => setOpenDrawer(false)}
+            onClick={() => setOpenDrawer(false)}>
+			<Box sx={{ height: 180, width: 240, background: grey[500] }}></Box>
 			<List>
 				<ListItem>
-					<ListItemButton>
+					<ListItemButton onClick={() => navigate("/")}>
 						<ListItemIcon>
 							<HomeIcon />
 						</ListItemIcon>
@@ -42,7 +48,8 @@ export default function AppDrawer() {
 				{user && (
 					<>
 						<ListItem>
-							<ListItemButton>
+							<ListItemButton
+								onClick={() => navigate("/profile")}>
 								<ListItemIcon>
 									<ProfileIcon />
 								</ListItemIcon>
@@ -63,8 +70,7 @@ export default function AppDrawer() {
 				{!user && (
 					<>
 						<ListItem>
-							<ListItemButton
-								onClick={() => setUser({ name: "Alice" })}>
+							<ListItemButton onClick={() => navigate("/login")}>
 								<ListItemIcon>
 									<LoginIcon />
 								</ListItemIcon>
@@ -72,7 +78,7 @@ export default function AppDrawer() {
 							</ListItemButton>
 						</ListItem>
 						<ListItem>
-							<ListItemButton>
+							<ListItemButton onClick={() => navigate("/register")}>
 								<ListItemIcon>
 									<RegisterIcon />
 								</ListItemIcon>

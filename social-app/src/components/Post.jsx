@@ -15,7 +15,11 @@ import {
 	ChatBubble as CommentIcon,
 } from "@mui/icons-material";
 
+import { useNavigate } from "react-router";
+
 export default function Post() {
+	const navigate = useNavigate();
+
 	return (
 		<Card sx={{ mb: 2 }}>
 			<CardContent sx={{ display: "flex", gap: 2 }}>
@@ -27,7 +31,9 @@ export default function Post() {
 					<Typography sx={{ fontSize: "0.8em", color: green[500] }}>
 						a few minutes ago
 					</Typography>
-					<Typography sx={{ mt: 1 }}>
+					<Typography
+						sx={{ mt: 1, cursor: "pointer" }}
+						onClick={() => navigate("/view/123")}>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit.
 						Cumque architecto, voluptate sapiente omnis rerum
 						repudiandae pariatur doloremque quidem nesciunt minima
