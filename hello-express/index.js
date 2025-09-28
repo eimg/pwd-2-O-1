@@ -13,9 +13,7 @@ const prisma = new PrismaClient();
 app.get('/items', async (req, res) => {
     const items = await prisma.todo.findMany();
 
-    setTimeout(() => {
-        res.json(items);
-    }, 2000);
+    res.json(items);
 });
 
 app.get('/items/:id', async (req, res) => {

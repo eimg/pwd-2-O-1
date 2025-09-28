@@ -1,34 +1,27 @@
-import { useState, useEffect } from "react";
-
 import Item from "./Item";
 import Header from "./Header";
 import Form from "./Form";
 
 import { Container, Divider, List, Alert } from "@mui/material";
 
+import { useQuery } from "@tanstack/react-query";
+import { queryClient } from "./AppProvider";
+
 const api = "http://localhost:8800/items";
 
-export default function App() {
-	const [data, setData] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState();
+async function fetchItems() {
+    const res = await fetch(api);
+    return res.json();
+}
 
-	useEffect(() => {
-		setIsLoading(true);
-		fetch(api)
-			.then(res => res.json())
-			.then(items => {
-				setData(items);
-				setIsLoading(false);
-			})
-            .catch(() => {
-                setError("Unable to connect");
-                setIsLoading(false);
-            });
-	}, []);
+export default function App() {
+	const { data, isLoading, error } = useQuery({
+        queryKey: ['items'],
+        queryFn: fetchItems,
+    });
 
 	const add = async name => {
-		const res = await fetch(api, { 
+		await fetch(api, { 
             method: "POST",
             body: JSON.stringify({ name }),
             headers: {
@@ -36,25 +29,34 @@ export default function App() {
             },
         });
 
-        const item = await res.json();
-        setData([...data, item]);
+        queryClient.invalidateQueries(['items']);
 	};
 
-	const toggle = id => {
-        fetch(`${api}/${id}/toggle`, { method: "PUT" });
+	const toggle = async id => {
+        await fetch(`${api}/${id}/toggle`, { method: "PUT" });
+		queryClient.invalidateQueries(["items"]);
+	};
 
-		setData(
-			data.map(item => {
-				if (item.id == id) item.done = !item.done;
-				return item;
-			})
+	const remove = async id => {
+        await fetch(`${api}/${id}`, { method: "DELETE" });
+		queryClient.invalidateQueries(["items"]);
+	};
+
+    if(isLoading) {
+        return (
+			<Alert severity="info" sx={{ mt: 2 }}>
+				Loading...
+			</Alert>
 		);
-	};
+    }
 
-	const remove = id => {
-        fetch(`${api}/${id}`, { method: "DELETE" });
-		setData(data.filter(item => item.id != id));
-	};
+    if (error) {
+		return (
+			<Alert severity="warning" sx={{ mt: 2 }}>
+				{error}
+			</Alert>
+		);
+	}
 
 	return (
 		<div>
@@ -64,22 +66,6 @@ export default function App() {
 				maxWidth="sm"
 				sx={{ mt: 4 }}>
 				<Form add={add} />
-
-				{isLoading && (
-					<Alert
-						severity="info"
-						sx={{ mt: 2 }}>
-						Loading...
-					</Alert>
-				)}
-
-				{error && (
-					<Alert
-						severity="warning"
-						sx={{ mt: 2 }}>
-						{error}
-					</Alert>
-				)}
 
 				<List>
 					{data

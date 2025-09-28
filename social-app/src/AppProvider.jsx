@@ -11,6 +11,8 @@ export const queryClient = new QueryClient();
 
 export default function AppProvider({ children }) {
 	const [mode, setMode] = useState("dark");
+	const [openDrawer, setOpenDrawer] = useState(false);
+	const [user, setUser] = useState();
 
 	const theme = useMemo(() => {
 		return createTheme({
@@ -21,7 +23,8 @@ export default function AppProvider({ children }) {
 	}, [mode]);
 
 	return (
-		<AppContext.Provider value={{ mode, setMode }}>
+		<AppContext.Provider
+			value={{ mode, setMode, openDrawer, setOpenDrawer, user, setUser }}>
 			<QueryClientProvider client={queryClient}>
 				<ThemeProvider theme={theme}>
 					{children}
