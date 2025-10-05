@@ -17,28 +17,26 @@ import {
 
 import { useNavigate } from "react-router";
 
-export default function Post() {
+export default function Post({ post }) {
 	const navigate = useNavigate();
 
 	return (
 		<Card sx={{ mb: 2 }}>
 			<CardContent sx={{ display: "flex", gap: 2 }}>
 				<Avatar sx={{ width: 64, height: 64, background: green[500] }}>
-					A
+					{post.user.name[0]}
 				</Avatar>
 				<Box>
-					<Typography sx={{ fontWeight: "bold" }}>Alice</Typography>
+					<Typography sx={{ fontWeight: "bold" }}>
+						{post.user.name}
+					</Typography>
 					<Typography sx={{ fontSize: "0.8em", color: green[500] }}>
-						a few minutes ago
+						{post.created}
 					</Typography>
 					<Typography
 						sx={{ mt: 1, cursor: "pointer" }}
-						onClick={() => navigate("/view/123")}>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit.
-						Cumque architecto, voluptate sapiente omnis rerum
-						repudiandae pariatur doloremque quidem nesciunt minima
-						esse excepturi, amet ab sed ut ipsam voluptatum repellat
-						impedit!
+						onClick={() => navigate(`/view/${post.id}`)}>
+						{post.content}
 					</Typography>
 
 					<Box
@@ -54,7 +52,7 @@ export default function Post() {
 							<Button
 								size="small"
 								variant="text">
-								10
+								{post.likes ? post.likes.length : 0}
 							</Button>
 						</ButtonGroup>
 						<ButtonGroup>
@@ -64,7 +62,7 @@ export default function Post() {
 							<Button
 								size="small"
 								variant="text">
-								5
+								{post.comments ? post.comments.length : 0}
 							</Button>
 						</ButtonGroup>
 					</Box>

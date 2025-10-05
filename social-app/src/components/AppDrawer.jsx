@@ -15,7 +15,7 @@ import {
 	PersonAdd as RegisterIcon,
 	Login as LoginIcon,
 	Logout as LogoutIcon,
-    ArrowBack as BackButton,
+	ArrowBack as BackButton,
 } from "@mui/icons-material";
 
 import { grey } from "@mui/material/colors";
@@ -32,7 +32,7 @@ export default function AppDrawer() {
 		<Drawer
 			open={openDrawer}
 			onClose={() => setOpenDrawer(false)}
-            onClick={() => setOpenDrawer(false)}>
+			onClick={() => setOpenDrawer(false)}>
 			<Box sx={{ height: 180, width: 240, background: grey[500] }}></Box>
 			<List>
 				<ListItem>
@@ -57,7 +57,11 @@ export default function AppDrawer() {
 							</ListItemButton>
 						</ListItem>
 						<ListItem>
-							<ListItemButton onClick={() => setUser(undefined)}>
+							<ListItemButton
+								onClick={() => {
+									setUser(undefined);
+									localStorage.removeItem("token");
+								}}>
 								<ListItemIcon>
 									<LogoutIcon />
 								</ListItemIcon>
@@ -78,7 +82,8 @@ export default function AppDrawer() {
 							</ListItemButton>
 						</ListItem>
 						<ListItem>
-							<ListItemButton onClick={() => navigate("/register")}>
+							<ListItemButton
+								onClick={() => navigate("/register")}>
 								<ListItemIcon>
 									<RegisterIcon />
 								</ListItemIcon>

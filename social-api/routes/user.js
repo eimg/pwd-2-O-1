@@ -7,7 +7,13 @@ const jwt = require("jsonwebtoken");
 const { PrismaClient } = require("../generated/prisma");
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
+const { auth } = require("../middlewares/auth.js");
+
+router.get("/verify", auth, (req, res) => {
+    res.json(req.user);
+});
+
+router.get("/", auth, async (req, res) => {
 	const users = await prisma.user.findMany({
 		orderBy: { id: "desc" },
 		take: 20,
