@@ -4,7 +4,7 @@ import Card from "@/components/card";
 
 import { PostType } from "@/types/global";
 
-const api = "http://localhost:8800/posts"
+const api = "http://192.168.1.5:8800/posts";
 
 async function fetchPosts() {
     const res = await fetch(api);

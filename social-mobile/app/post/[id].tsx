@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import Card from "@/components/card";
 import Comment from "@/components/comment";
 
-const api = "http://localhost:8800/posts";
+const api = "http://192.168.1.5:8800/posts";
 
 async function fetchPost(id: string) {
 	const res = await fetch(`${api}/${id}`);

@@ -11,7 +11,7 @@ import {
 import { useApp } from "@/components/AppProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const api = "http://localhost:8800";
+const api = "http://192.168.1.5:8800";
 
 export default function Profile() {
 	const { user, setUser } = useApp();

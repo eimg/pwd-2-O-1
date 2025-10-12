@@ -17,6 +17,7 @@ export default function RootLayout() {
 					name="form"
 					options={{
 						headerTitle: "Form",
+                        presentation: "modal",
 					}}
 				/>
 				<Stack.Screen

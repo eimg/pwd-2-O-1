@@ -1,5 +1,9 @@
+import { TouchableOpacity } from "react-native";
+
 import { Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+
+import { router } from "expo-router";
 
 export default function HomeLayout() {
 	return (
@@ -20,6 +24,16 @@ export default function HomeLayout() {
 							/>
 						);
 					},
+					headerRight: () => (
+						<TouchableOpacity
+							style={{ marginRight: 10 }}
+							onPress={() => router.push("/form")}>
+							<Ionicons
+								name="add"
+								size={24}
+							/>
+						</TouchableOpacity>
+					),
 				}}
 			/>
 			<Tabs.Screen
