@@ -13,6 +13,9 @@ app.use("/users", userRouter);
 const { postRouter } = require("./routes/post.js");
 app.use("/posts", postRouter);
 
+const { commentRouter } = require("./routes/comment.js");
+app.use("/comments", commentRouter);
+
 app.listen(8800, () => {
     console.log("Social API running at 8800...");
 });

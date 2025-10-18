@@ -1,10 +1,10 @@
+import { useState } from "react";
 import Post from "../components/Post";
 import Comment from "../components/Comment";
-
 import { Box, OutlinedInput, Button } from "@mui/material";
-
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
+import { useApp, queryClient } from "../AppProvider";
 
 const api = "http://localhost:8800";
 
@@ -15,6 +15,41 @@ async function fetchPost(id) {
 
 export default function View() {
 	const { id } = useParams();
+	const { user } = useApp();
+	const [comment, setComment] = useState("");
+	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	const handleComment = async (e) => {
+		e.preventDefault();
+		if (!comment.trim() || !user) return;
+
+		setIsSubmitting(true);
+
+		try {
+			const response = await fetch(`${api}/comments`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${localStorage.getItem("token")}`,
+				},
+				body: JSON.stringify({
+					content: comment,
+					postId: Number(id),
+				}),
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to add comment");
+			}
+
+			setComment("");
+			queryClient.invalidateQueries({ queryKey: ["post", id] });
+		} catch (error) {
+			console.error("Comment error:", error);
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
 
 	const {
 		data: post,
@@ -45,22 +80,30 @@ export default function View() {
 				);
 			})}
 
-			<Box sx={{ paddingBottom: 10 }}>
-				<form>
-					<OutlinedInput
-						multiline
-						fullWidth
-						sx={{ mb: 1 }}
-					/>
-					<Box sx={{ textAlign: "right" }}>
-						<Button
-							type="submit"
-							variant="contained">
-							Add Comment
-						</Button>
+			{user && (
+				<Box sx={{ paddingBottom: 10 }}>
+					<Box component="form" onSubmit={handleComment}>
+						<OutlinedInput
+							multiline
+							fullWidth
+							sx={{ mb: 1 }}
+							placeholder="Write a comment..."
+							value={comment}
+							onChange={(e) => setComment(e.target.value)}
+							disabled={isSubmitting}
+						/>
+						<Box sx={{ textAlign: "right" }}>
+							<Button
+								type="submit"
+								variant="contained"
+								disabled={!comment.trim() || isSubmitting}
+							>
+								{isSubmitting ? "Posting..." : "Add Comment"}
+							</Button>
+						</Box>
 					</Box>
-				</form>
-			</Box>
+				</Box>
+			)}
 		</div>
 	);
 }
