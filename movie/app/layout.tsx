@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Play, Clapperboard } from "lucide-react";
 import Link from "next/link";
 import type { GenreType } from "@/types/global";
+import { Input } from "@/components/ui/input";
+import { redirect } from "next/navigation";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -32,6 +34,14 @@ async function fetchGenres(): Promise<GenreType[]> {
 	return data.genres;
 }
 
+async function search(form: FormData) {
+    "use server";
+
+	const q = form.get("q");
+
+	redirect(`/search?q=${q}`);
+}
+
 export default async function RootLayout({
 	children,
 }: Readonly<{
@@ -44,16 +54,25 @@ export default async function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				<div>
-					<div className="p-4 border-b flex">
+					<div className="p-4 border-b flex items-center justify-between">
 						<h1 className="text-2xl font-bold flex gap-2 items-center">
 							<Clapperboard />
 							Next Movie
 						</h1>
+						<form
+							action={search}
+							className="flex items-center gap-2">
+							<Input
+								placeholder="Search"
+								name="q"
+							/>
+							<Button>Search</Button>
+						</form>
 					</div>
 					<div className="flex">
 						<div className="p-4 border-r w-[200px] flex flex-col gap-2">
 							<Button
-                                asChild
+								asChild
 								variant="outline"
 								className="justify-start">
 								<Link
@@ -65,7 +84,7 @@ export default async function RootLayout({
 							{genres.map(genre => {
 								return (
 									<Button
-                                        asChild
+										asChild
 										key={genre.id}
 										variant="outline"
 										className="justify-start">
